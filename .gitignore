@@ -1,4 +1,6 @@
 .idea
+*.iml
+nbproject
 _site
 Gemfile.lock
 /nbproject/private/

@@ -19,6 +19,11 @@ OPUS 4 richtet sich an alle Hochschulen und andere Kultureinrichtungen, die eige
 Preprints, Projektergebnisse, etc) als Open Access in einem instituts- oder fachbezogenen Repositorium zur Verfügung
 stellen wollen.
 
+## OPUS 4 Handbuch
+
+Das [OPUS 4 Handbuch](userdoc) ist für Betreiber und Nutzer von OPUS 4 gedacht. Dort finden sich Anleitungen für die
+Installation, Konfiguration und den Betrieb eines OPUS 4 Repositories.
+
 ## Weitere Informationen
 
 Die offizielle [OPUS 4 Homepage](http://opus4.kobv.de) bietet weitere Informationen zum Projekt und den bisher
