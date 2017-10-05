@@ -43,6 +43,11 @@ Mit folgendem Kommando werden die Datenbank und die Volltextdateien zurückgeset
 neue Indizierung durchgeführt. 
 
     $ ant reset-testdata
+    
+Um die ausführlichen Information zum Kopieren der Testdateien zu sehen, kann `-Dverbose=1`
+verwendet werden.
+
+    $ ant reset-testdata -Dverbose=1    
 
 # XHTML/XML-Schema-Dateien lokal cachen
 
