@@ -156,6 +156,8 @@ body {
 .highlight pre {
     margin: 0px;
     padding: 0px;
+    border: none;
+    font-size: 0.8em;
 }
 
 /* Inline code */

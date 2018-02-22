@@ -11,8 +11,8 @@ folgende Kommandos verwenden.
     $ ../vendor/bin/phpunit . | tee testresult.txt
     
 Mit "`../vendor/bin/phpunit .`" wird die durch Composer installierte Version von PHPUnit
-verwendet und sämtliche Tests ausgeführt. Durch "`| tee testresult.txt`" werden die Ausgaben während des Tests zusätzlich in die
-Datei `testresult.txt` geschrieben.
+verwendet und sämtliche Tests ausgeführt. Durch "`| tee testresult.txt`" werden die Ausgaben während des Tests 
+zusätzlich in die Datei `testresult.txt` geschrieben.
 
 Folgende Zeile würde nur die Tests für `Opus_Document` ausführen. 
 
@@ -70,7 +70,9 @@ und sind in eine XML-Katalog-Datei aufgelistet:
 Damit der XML-Katalog verwendet wird muss die Environmentvariable `XML_CATALOG_FILES`
 gesetzt werden, z.B. in der `.bashrc` Datei. 
 
-    export XML_CATALOG_FILES=~/projects/opus4/tests/resources/opus4-catalog.xml
+``` bash
+export XML_CATALOG_FILES=~/projects/opus4/tests/resources/opus4-catalog.xml
+```
     
 Sollen die Unit-Tests in einer IDE ausgeführt werden, sollte die Variable auch dort für 
 die Ausführung von PHPUnit konfiguriert werden. Wie das genau passiert ist für jede IDE
@@ -81,3 +83,23 @@ für die PHPUnit-Default-Einstellungen erfolgen.
 
 * [Weitere Informationen zu XML-Catalogs](http://xmlsoft.org/catalog.html)
 {: class="navlist" }
+
+# Code-Coverage
+
+Die Code-Coverage gibt an wieviel vom Code durch die Tests abgedeckt wird. Insbesondere
+die Controller-Tests sind aber keine Unit Tests, sondern Integrationstest. Mindestens für
+die Tests sollte die Coverage eingeschränkt werden. Dafür kann `@covers` verwendet werden. 
+
+``` php
+/**
+ * IndexControllerTest class for testing IndexController.
+ *
+ *
+ * @covers IndexController
+ */
+```
+     
+Dadurch wird nur die Tests erzeugte Coverage für den IndexController berücksichtigt und 
+nicht für die Klassen, die bei der Ausführung evtl. auch noch berührt werden. Es gibt
+noch weitere Wege, um die Coverage einzuschränken und ein ehrlicheres Bild der Abdeckung
+zu bekommen. Für genauere Information bitte die PHPUnit Dokumentation hinzuziehen.     
