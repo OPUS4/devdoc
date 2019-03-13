@@ -4,153 +4,79 @@ group: navigation
 weight: 100
 ---
 
-# Solr für OPUS 4 einrichten
+# Apache Solr für OPUS 4 einrichten
 
-Die folgende Anleitung beschreibt wie Apache Solr manuell für OPUS 4 eingerichtet werden kann. Als System wird
-Ubuntu 14.0.4 verwendet und die aktuelle Version von Solr ist 5.2.1. Die Schritte sollten für andere Linux
-Distributionen ähnlich sein.
+Die folgende Anleitung beschreibt wie Apache Solr manuell für OPUS 4 eingerichtet werden kann. Die Beschreibung bezieht
+sich auf Ubuntu 16.04 LTS und Solr 7.7.1. Die Schritte sollten für andere Linux Distributionen ähnlich sein.
 
+Es wird hier nur auf die grundlegensten Schritte eingegangen. Mehr Information finden sich in der Dokumentation auf den
+Solr-Webseiten.
+
+<http://lucene.apache.org/solr/guide/7_7>
+ 
 
 ## Solr herunterladen
 
 Zuerst muss die Solr Distribution von der [Solr](http://lucene.apache.org/solr/) Webseite heruntergeladen werden. Die
-heruntergeladene Datei, z.B. `solr-5.2.1.tgz` muss anschließend entpackt werden.
+heruntergeladene Datei, z.B. `solr-7.7.1.tgz` muss anschließend entpackt werden.
 
 {% highlight bash %}
-tar xvfz solr-5.2.1.tgz
+tar xvfz solr-7.7.1.tgz
 {% endhighlight %}
-
-## Konfigurationsdateien holen
-
-Die OPUS 4 Konfigurationsdateien für Solr liegen auf GitHub im Repository
-[opus4/search](https://github.com/opus4/search). Sie können mit git clone heruntergeladen
-werden.
-
-{% highlight bash %}
-git clone https://github.com/opus4/search
-{% endhighlight %}
-
-Es gibt mehrere Konfigurationsdateien für verschiedene Versionen von Solr. Für Solr 5.x sollten die folgenden Dateien
-verwendet werden.
-
-* solrconfig-5.xml
-* schema-5.xml
 
 ## Solr installieren
 
-Solr 5.x kommt mit einem Installationsskript das genutzt werden kann um Solr als ein Service auf dem System zu
-installieren.
+Solr kommt mit einem Installationsskript, `bin/install_solr_service.sh`, dass genutzt werden kann um Solr als Service 
+auf dem System zu installieren. In der Regel reicht es das Script nach dem Auspacken des Solr Downloads mit dem Pfad
+zum Download-TAR aufzurufen.
 
-{% highlight bash %}
+    $ solr-7.7.1/bin/install_solr_service.sh solr-7.7.1.tgz
+    
+Weitere Informationen finden sich auf den Solr-Webseiten.  
 
-{% endhighlight %}
+<http://lucene.apache.org/solr/guide/7_7/taking-solr-to-production.html>
 
+Wenn OPUS 4 nur getestet werden soll kann Solr auch direkt ohne eine Installation als Service gestartet und genutzt 
+werden. In jedem Fall müssen aber die Konfigurationsdateien für OPUS 4 hinzugefügt werden, damit die Indizierung und
+Suche wie erwartet funktionieren.
+
+## Konfigurationsdateien
+
+Die OPUS 4 Konfigurationsdateien für Solr liegen ab OPUS 4.6.4 im Verzeichnis `vendor/opus4-repo/search/config`.
+
+* solrconfig.xml
+* schema.xml
 
 ## Verzeichnisse vorbereiten
 
+Nach der Installation von Solr als Service liegen die Daten für Solr normalerweise unter `/var/solr/data`. Dort muss
+für OPUS 4 ein Unterverzeichnis angelegt werden.
+
 {% highlight bash %}
-cd solr-4.10.4
-
-cp -R example opus4
-
-cd opus4/multicore
-
-// Beispielverzeichnisse entfernen
-rm -rf core0 core1 exampledocs
+$ cd /var/solr/data
+$ mkdir opus4
+$ cd opus4
+$ mkdir conf
+$ cd conf
 {% endhighlight %}
 
 ## Konfigurationsdateien ablegen
 
-Entweder in
-
-multicore/opus/conf
-
-Dabei ist "opus" der Name des Cores. Für jeden Core muss dann ein solches Verzeichnis angelegt werden.
-
-{% highlight xml %}
-...
-<core name="opus" instanceDir="opus" config="solrconfig.xml" schema="schema.xml" />
-...
-{% endhighlight %}
-
-### Konfigurationsdateien für mehrere Cores verwenden
-
-Alternativ, wenn man mehrere Cores mit der selben Konfiguration betreiben möchte kann man die Dateien als configSet
-ablegen.
+Die Konfigurationsdateien von OPUS 4 müssen im `conf`-Verzeichnis liegen. Es bietet sich an diese zu Verlinkung, damit
+bei einem Update, Änderungen an diesen Dateien automatisch übernommen werden. 
 
 {% highlight bash %}
-
-mkdir -p configsets/opus/conf
-
+$ cd /var/solr/data/opus4/conf
+$ ln -sv /home/opus/opus4/vendor/opus4-repo/search/config/solrconfig.xml solrconfig.xml
+$ ln -sv /home/opus/opus4/vendor/opus4-repo/search/config/schema.xml schema.xml
 {% endhighlight %}
 
-Die beiden Konfigurationdateien `schema.xml` und `solrconfig.xml` in dieses neue Verzeichnis kopieren.
+Der Pfad zu den Dateien muss an die eigenen Installation angepasst werden.
 
-In der Datei `solr.xml` den Core wie folgt eintragen.
-
-{% highlight xml %}
-...
-<core name="opus" instanceDir="opus" configSet="opus4" />
-...
-{% endhighlight %}
-
-Die Verzeichnissstruktur innerhalb von `multicore` ist dann wie folgt:
+Zum Schluß muss Solr neu gestartet werden.
 
 {% highlight bash %}
-multicore/
-|-solr.xml
-|-configsets/
-  |-opus4/
-    |- conf/
-       |- schema.xml
-       |- solrconfig.xml
+$ sudo service solr restart 
 {% endhighlight %}
 
-## solrconfig.xml anpassen
-
-In der Datei `solrconfig.xml` muss zur Zeit (für Solr 4.9.1) noch folgender Eintrag hinzugefügt werden:
-
-{% highlight xml %}
-
-<luceneMatchVersion>4.9.1</luceneMatchVersion>
-
-{% endhighlight %}
-
-Das kann gleich am Anfang innerhalb von `<config>` gemacht werden.
-
-
-
-## Port ändern
-
-Normalerweise läuft Solr auf Port 8983. Wenn auf einem System mehrere Solr Instanzen laufen sollen ist es notwendig den
-Port zu ändern. Dafür muss man die Datei `etc/jetty.xml` editieren. Dort findet sich eine Connector Konfiguration wie
-folgende in der der Port geändert werden kann.
-
-{% highlight xml %}
-<Call name="addConnector">
-    <Arg>
-        <New class="org.eclipse.jetty.server.bio.SocketConnector">
-            <Set name="host"><SystemProperty name="jetty.host" /></Set>
-            <Set name="port"><SystemProperty name="jetty.port" default="8985"/></Set>
-            <Set name="maxIdleTime">50000</Set>
-            <Set name="lowResourceMaxIdleTime">1500</Set>
-            <Set name="statsOn">false</Set>
-        </New>
-    </Arg>
-</Call>
-{% endhighlight %}
-
-## Solr starten
-
-Da wir die neue Instanz im Verzeichnis `multicore` konfiguriert haben muss sie mit folgendem Kommando gestartet werden.
-
-{% highlight bash %}
-java -Dsolr.solr.home=multicore -jar start.jar
-{% endhighlight %}
-
-## Extraktion von Volltexten einrichten
-
-## Solr in separaten User Account installieren
-
-## Startup Skript für Solr einrichten
-
+Man kann schauen, ob Solr korrekt gestartet wurde indem man die URL `http://localhost:8983` aufruft. 
