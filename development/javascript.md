@@ -33,11 +33,10 @@ Um die Übersetzungen zu nutzen, gibt es drei Stellen, an denen diese hinzugefü
 2. Als nächstes müssen die benötigten Übersetzungen im View-Helper registriert werden, da nicht automatisch alle
    Übersetzungen auf der Client-Seite verfügbar gemacht werden können. Im Controller können mit `addMessage`
    Übersetzungsschlüssel übergeben werden.
-
-
+    ```
     $ javascriptTranslations = $this->view->getHelper('javascriptMessages');
     $ javascriptTranslations->addMessage('identifierInvalidFormat');
-
+    ```
 3. Die Übersetzung muss auch in Ihrer neuen Javascript Datei erscheinen. In dieser muss eine Standardnachricht in 
 englischer Sprache zu finden sein. Diese Nachricht **muss** im Array `opus4Messages` untergebracht werden. Zum Beispiel:
  `opus4Messages["uploadedFileHasErrorMessage"] = "The file '%name%' has the following errors:"`. Diese Nachricht kann 
@@ -46,8 +45,44 @@ dann an entsprechender Stelle in Ihrer neuen Javascript Datei ausgegeben werden.
 **Achtung:** Der Übersetzungschlüssel, im gezeigten Beispiel `uploadedFileHasErrorMessage`, muss mit dem der tmx Datei 
 übereinstimmen.
 
-TODO Beispieldateien, wenn verwendet, verlinken
-TODO Erläutern wie, warum man Default-Text definiert (Code-Schnipsel)
-TODO Verwendung von Übersetzung (Code-Schnipsel)
+4. Es ist sinnvoll für Funktionen, welche Übersetzungen benutzen, einen Default-Text zur Verfügung zur stellen.
+Damit kann immer eine Nachricht ausgegeben werden ohne zwingend Übersetzungen in der tmx-Datei zu haben.
+Dafür muss in dem Array `opus4Messages` ein Key definiert werden. Der dazugehörige Value ist die Default-Nachricht.
+Es bietet sich an, diese Nachricht in Englisch zu definieren.
+    ```
+    opus4Messages["identifierInvalidCheckdigit"] = "The check digit of \'%value%\' is not valid";
+    opus4Messages["identifierInvalidFormat"] = "\'%value%\' is malformed";
+    ```
+### Beispiel
 
+Um die Entwicklung zu erleichtern, folgt ein kurzes Beispiel am Code. (`validation.js`)
 
+Als erstes setzen wir in der Javascript-Datei das `opus4Messages`-Array und definieren die Default-Texte
+
+    var opus4Messages = [];
+    opus4Messages["identifierInvalidCheckdigit"] = "The check digit of \'%value%\' is not valid";
+    opus4Messages["identifierInvalidFormat"] = "\'%value%\' is malformed";
+   
+Im Code können wir die Übersetzung mithilfe von `getMessage` nutzen. Value definiert eine bestimmten Wert.
+Hier zum Beispiel eine ISBN.
+    
+    return this.getMessage("identifierInvalidFormat", value);
+    
+In der Javascirpt-Datei sind wir damit fertig. Nun sollten wir auch eine Übersetzung für unseren Text hinzufügen.
+Dies können wir im Controller machen. Dafür definieren wir eine Übersetzung und fügen ihr translation-keys zu.
+Hier ein Beispiel aus dem `DocumentController` des `admin`-Moduls.
+
+    $javascriptTranslations = $this->view->getHelper('javascriptMessages');
+    $javascriptTranslations->addMessage('identifierInvalidFormat');
+    $javascriptTranslations->addMessage('identifierInvalidCheckdigit');
+
+In einer tmx-Datei werden dann diese Schlüssel mit Übersetzungen definiert. Wir müssen hier beachten,
+dass die keys überall übereinstimmen. Sonst werden die Default-Texte nicht ordentlich überschrieben.
+Hier aus der `error.tmx` des `default`-Moduls. Die tmx-Dateien findet man im `language`-Ordner.
+    
+    <tu tuid="identifierInvalidCheckdigit">
+        <tuv xml:lang="en">
+    ...
+
+Das wars. Nun haben wir eine Übersetzung hinzugefügt. Dieses Schema können Sie auch in Ihren eigenen Javascript-Datein
+anwenden.
