@@ -43,8 +43,8 @@ in der Regel entweder Teil eines Modules oder der Library.
 
 | Klasse | Datei |
 | ------ | ----- |
-| `Application_Controller_ActionCRUD` | library/Application/Controller/ActionCRUD |
-| `Admin_Model_EnrichmentKeys` | modules/admin/models/EnrichmentKeys |
+| `Application_Controller_ActionCRUD` | library/Application/Controller/ActionCRUD.php |
+| `Admin_Model_EnrichmentKeys` | modules/admin/models/EnrichmentKeys.php |
     
 ## Arrays
 
