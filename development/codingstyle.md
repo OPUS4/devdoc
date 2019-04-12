@@ -5,64 +5,47 @@ weight: 50
 
 # Coding Style
 
-OPUS 4 richtig sich im Allgemeinen nach dem Coding Style vom Zend Framework 1 und neuer. 
+OPUS 4 ist zum größten Teil in PHP geschrieben. Der Code folgt den Prinzipien der Objekt-Orientierten 
+Programmierung (OOP).  
+
+OPUS 4 richtet sich im Allgemeinen nach dem Coding Style vom Zend Framework 1 und neuer. 
 
 * [Zend Framework 1.12 Coding Style][ZF1CS]
 * [Zend Framework 2.4 Coding Standard for PHP][ZF2CS]
 {: class="navlist" }
 
-In einigen Punkten weicht der OPUS 4 Source Code von dem auf den Seiten oben beschriebenen Stil ab. 
+In einigen Punkten weicht der OPUS 4 Source Code von dem auf den Seiten oben beschriebenen Stil ab. Im folgenden
+werden die wichtigsten Punkte hervorgehoben. Der Coding Style soll in der Regel durch technische Maßnahmen sicher 
+gestellt werden.  
 
 ## Allgemeines
 
-Zeilen sollten nicht länger als **120** Zeichen sein.
+* Zeilen sollten nicht länger als **120** Zeichen sein.
+* Für Einrückungen verwenden wir 4 Leerzeichen. Es sollten keine Tab-Zeichen verwendet werden.
+* Dateien enden immer mit einem Zeilenumbruch, also im Editor mit genau einer leeren Zeile.
+* Klammern werden nicht in der selben Zeile von Funktions- oder Klassennamen gesetzt.
+* Deklarationen von Variablen finden am Anfang einer Klasse statt.
 
-Für Einrückungen verwenden wir 4 Leerzeichen. Tab-Zeichen werden nicht verwendet.
-
-Dateien enden immer mit einem Zeilenumbruch, also im Editor mit einer leeren Zeile.
-
-Es gilt die grundlegende Idee des OOP. Jede Klasse in eine eigene Datei. Eine Funktion hält, wenn möglich, eine 
-Funktionalität. 
-
-Klammern werden nicht in der selben Zeile von Funktions- oder Klassennamen gesetzt.
-
-Der Rückgabewert einer Funktion steht nicht in Klammern.
-
-Deklarationen für Klassenspezifische Variablen finden immer am Anfang einer Klasse statt.
-
-{% highlight php %}
-/**
- * Dokumentations Block hier
- */
-class Foo
-{
-
-    /**
-     * Dokumentations Block hier
-     */
-    public function bar()
-    {
-        return $this->bar;
-    }
-}
-{% endhighlight %}
-
-## Benennung
+## Namen von Variablen und Klassen
 
 Variablen und Arrays beginnen immer mit einem kleinen Buchstaben. Für jedes neue Wort wird der erste Buchstabe groß 
-geschrieben. Zum Beispiel `$halloWelt`
+geschrieben, zum Beispiel `$halloWelt`. Wir verwenden keinen Präfix '_' für Variablen, die **protected** oder 
+**private** sind.
 
 Das selbe gilt für Funktionen. In Test-Funktionen ist das erste Wort immer z.B. `testHalloWelt()`.
 
 Klassen beginnen mit einem Großbuchstaben. Außerdem steht vor der Klasse der Pfad der Klasse, der durch
 einen Unterstrich getrennt wird. 
 
-    Application_Controller_ActionCRUD   -> library/Application/Controller/ActionCURD (in der Library)
-    Admin_Model_EnrichmentKeys  -> modules/admin/models/EnrichmentKeys (in einem Modul)
-    
-Generell gilt, so prägnant wie möglich. Der Name der Funktion oder Klasse sollte ihre Funktionalität im Idealfall 
-selbst erklären.
+In neueren Paketen wie **opus4-common** verwenden wir bereits Namespaces. Das Framework und die Application 
+verwenden noch ein älteres Namenschema wie es in Zend Framework 1 verwendet wird. In der Application sind Klassen
+in der Regel entweder Teil eines Modules oder der Library.  
 
+| Klasse | Datei |
+| ------ | ----- |
+| `Application_Controller_ActionCRUD` | library/Application/Controller/ActionCRUD |
+| `Admin_Model_EnrichmentKeys` | modules/admin/models/EnrichmentKeys |
+    
 ## Arrays
 
 Für Arrays verwenden wir die Kurzschreibweise, also `[]`. Die alte Form, `array()` wird nicht mehr verwendet. Muss
@@ -78,17 +61,40 @@ $two = [
 
 ## Dokumentation
 
-Jede Funktion und jede Klasse sollte einen Dokumentationsblock haben. Die drei minimalen Bestandteile sind 
-die Beschreibung der Funktionalität auch die Argumente und die Rückgabewerte.
+In der Dokumentation sollte nicht nur das stehen, was man sowieso schon im Code sieht. Am wichtigsten ist es
+die Absichten festzuhalten, so dass später bei Problemen ein Abgleich zwischen dem was ein Stück Code tun soll
+und was es wirklich tut vorgenommen werden kann. 
+
+Darüber hinaus ist es wichtig zu dokumentieren, wenn Kompromisse eingegangen werden und warum. Zusammenhänge,
+die sich nicht direkt aus dem Code erschließen und wichtig für das Verständnis eines Entwicklers sind sollten
+dokumentiert werden. 
+
+Es geht bei der Dokumenation nicht darum, irgendwelche Minimalanforderungen zu erfüllen. Man sollte sich immer
+fragen, was der neue Entwickler, der morgen anfangt braucht, um schnell einsteigen zu können. Was braucht ich, 
+wenn ich mir den Code in zwei Jahren anschaue?  
+
+Jede Funktion und jede Klasse sollte einen Dokumentationsblock haben. Die drei wichtigsten Bestandteile sind 
+die Beschreibung der Funktionalität, die Parameter und der Rückgabewert. Die Beschreibung sollte in einem 
+kurzen Satz in einer Zeile erfolgen. Danach können weiter Erläuterungen über mehrere Zeilen hinweg geschrieben 
+werden.
 
 {% highlight php %}
 /**
- * Beschreibung
+ * Kurze Beschreibung der Funktion.
  *
- * @param
- * @return
+ * Ausführlichere Erläuterungen zur Funktion. 
+ *
+ * @param  
+ * @param 
+ * @return 
  */
 {% endhighlight %}
+
+### TODO und FIXME Kommentare
+
+Nicht für jede Kleinigkeit lohnt sich ein neues Ticket. Manchmal müssen Kompromisse gemacht werden, bei denen klar
+ist, dass später weitere Änderungen sinnvoll werden. Erkenntnisse sollten mit `@TODO` oder `@FIXME` direkt im Code
+festgehalten werden, damit diese Informationen nicht verloren gehen und später schnell aufgegriffen werden können. 
 
 ## Header
 
@@ -148,7 +154,32 @@ Für neuere Pakete, wie [opus4-common][OPUS4COMMON] muss die Prüfung des Coding
 Beim [framework][FRAMEWORK] und der [application][APPLICATION] gibt es noch alten Code, der noch nicht angepasst wurde. 
 Dort werden zur Zeit noch viele Verletzungen des Coding Styles gemeldet. 
 Hier sollten vorerst nur einzelne Dateien geprüft werden. Neuer oder veränderter Code muss den Vorgaben entsprechen. 
-</p>    
+</p>
+
+# Beispiel
+
+{% highlight php %}
+/**
+ * Dokumentations Block hier
+ */
+class Foo
+{
+
+    const KONSTANTE = 'beispiel';
+    
+    private $counter = 0;
+
+    /**
+     * Returns value of counter.
+     *
+     * @return integer Current value of counter.
+     */
+    public function getCounter()
+    {
+        return $this->counter;
+    }
+}
+{% endhighlight %}    
 
 [ZF1CS]: https://framework.zend.com/manual/1.12/de/coding-standard.coding-style.html
 [ZF2CS]: https://framework.zend.com/manual/2.4/en/ref/coding.standard.html
