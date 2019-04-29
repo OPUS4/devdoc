@@ -46,7 +46,14 @@ body {
     vertical-align: top;
     /* border-radius: 0.5em; */
 }
-
+#search-engine {
+    margin-right: 0;
+    padding: 0;
+    width: 258px;
+    height: 40px;
+    overflow:hidden;
+    frameborder="0"
+}
 #navigation .title {
     text-align: center;
     font-size: 1.2em;
