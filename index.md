@@ -21,8 +21,8 @@ stellen wollen.
 
 ## OPUS 4 Handbuch
 
-Das [OPUS 4 Handbuch](userdoc) ist für Betreiber und Nutzer von OPUS 4 gedacht. Dort finden sich Anleitungen für die
-Installation, Konfiguration und den Betrieb eines OPUS 4 Repositories.
+Das [OPUS 4 Handbuch](https://www.opus-repository.org/userdoc/) ist für Betreiber und Nutzer von OPUS 4 gedacht. 
+Dort finden sich Anleitungen für die Installation, Konfiguration und den Betrieb eines OPUS 4 Repositories.
 
 ## Weitere Informationen
 
