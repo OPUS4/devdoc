@@ -170,5 +170,22 @@ ist möglich.
 Ganz Code Blöcke sind momentan nicht innerhalb einer Textbox machbar.
 
 
+## Dokumentation testen
+
+Um Fehler in der Anzeige der Dokumentation zu verhindern, wird empfohlen diese zu manuell zu testen.
+Dafür muss diese gerendert werden und im Anschluss kann man sich das Ergebnis der Markdown-Datei anschauen.
+
+Um die Dokumentation zu redern empfehlen wir die Benutzung eines jekyll-Dockers. Wie das ganze funktioniert ist auf
+der folgenden Website beschrieben. (https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/)
+
+Um es Nutzern und Entwicklern einfach zu machen, existieren im Ordner **scripts** scripte, welche den Docker starten und 
+auch wieder herunterfahren. Für die Linux verwenden Sie die **bash**-Scripte im Linux-Ordner. 
+Für Windows bitte die **batch**-Scripte im Windows-Ordner benutzen.
+
+Um den Renderer zu starten, einfach in den entsprechenden Ordner gehen und das **render**-Script ausführen. Im
+Anschluss lässt sich die gerenderte Dokumentation im Browser über **localhost:4000** betrachten.
+Nach dem testen empfiehlt es sich, den Docker zu stoppen und zu löschen. Dafür nutzen Sie bitte das **clear** Script.
+
+Alle Scripte benötigen Administrator-Rechte, weil diese eine Bedingung für die Ausführung von Docker sind.
 
 
