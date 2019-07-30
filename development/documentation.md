@@ -177,7 +177,7 @@ Für mehr Informationen: `https://www.jamessturtevant.com/posts/Running-Jekyll-i
 
 Gehen Sie in das Root-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus:
 
-    docker run --name "Opus4_Doku_Renderer" -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
+    docker run --name "Opus4_Doku_Renderer" -d -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
 
 Der Docker kann nach dem Testen wieder gestoppt werden:
 
