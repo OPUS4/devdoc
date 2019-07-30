@@ -172,21 +172,26 @@ Ganz Code Blöcke sind momentan nicht innerhalb einer Textbox machbar.
 
 ## Dokumentation testen
 
-Um die Auswirkungen der Änderungen in der Doku zu sehen, sollte diese gerendert werden.
-Dafür empfehlen wir die Benutzung eines jekyll-Dockers. (https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/)
+Die Dokumentation kann auf Windows und Linux lokal mit einem jekyll-Docker getestet werden. 
+Für mehr Informationen: `https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/`
 
-Gehen Sie in das 'root'-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus:
+Gehen Sie in das Root-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus:
 
     docker run --name "Opus4_Doku_Renderer" -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
-Der Docker kann nach dem testen entweder wieder gelöscht werden (Bei Bedarf erneuter Download des Containers nötig)
-    
+
+Der Docker kann nach dem Testen wieder gestoppt werden:
+
     docker stop Opus4_Doku_Renderer
-    docker rm Opus4_Doku_Renderer
-   
-Oder bei Bedarf neu gestartet werden (Kein erneuter Download des Containers nötig)
+    
+Mit folgendem Befehl lässt sich der Docker danach wieder starten:
     
     docker start Opus4_Doku_Renderer
     
-Die gerenderte Doku kannüber "localhost/4000" im Browser betrachtet werden.
+`docker run` funktioniert dann nicht mehr, da der Container bereits existiert.    
+Benötigen Sie den Docker nicht mehr können Sie den Container wie folgt löschen, nachdem Sie diesen gestoppt haben:
+
+    docker rm Opus4_Doku_Renderer
+    
+Die gerenderten Seiten kann über `https://localhost:4000` im Browser betrachtet werden.
 
     
