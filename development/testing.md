@@ -103,3 +103,47 @@ Dadurch wird nur die Tests erzeugte Coverage für den IndexController berücksic
 nicht für die Klassen, die bei der Ausführung evtl. auch noch berührt werden. Es gibt
 noch weitere Wege, um die Coverage einzuschränken und ein ehrlicheres Bild der Abdeckung
 zu bekommen. Für genauere Information bitte die PHPUnit Dokumentation hinzuziehen.     
+
+# Performanz
+
+Die Geschwindigkeit der Tests wird unter anderem durch den Speicherverbrauch beeinflusst.
+Leider ist es schwierig nach jedem Tests den Speicher wieder komplett aufzuräumen. Dadurch
+steigt der Speicherverbrauch mit jedem Test etwas an. Bei 3500+ Tests für die Application
+kommt dabei einiges zusammen und die Laufzeit verlängert sich beträchtlich. Um diesen Effekt
+abzumildern wurden einige Massnahmen getroffen. 
+
+## Tests in Blöcken
+
+Die Tests sind für Travis in Blöcke eingeteilt, die nach einander ausgeführt werden.
+
+## Selektives Laden der Ressourcen
+
+Jede Testklasse sollte nur die Ressourcen laden die notwendig sind. Folgendes Beispiel 
+sorgt dafür, dass die Datenbank und die Übersetzungen verfügbar sind. Insbesondere die 
+Übersetzungen beeinflussen die Laufzeit von Tests beträchtlich.  
+
+``` php
+protected $additionalResources = ['database', 'translation'];
+``` 
+
+Die verfügbaren Ressourcen entsprechen, den `_initXXX`-Funktionen im Bootstrap von OPUS, also
+in `Application_Bootstrap` und `Opus_Bootstrap_Base`. Die folgenden Ressourcen werden 
+automatisch geladen.
+
+* configuration
+* logging
+
+Gibt man für `$additionalResources` den Wert `all` an wird der gesamte Bootstrap ausgeführt. 
+
+Mit folgender Option kann man dafür sorgen, dass die Konfiguration in einem Test manipulierbar 
+ist.
+
+``` php
+protected $configModifiable = true;
+```
+
+## Memory-Leak reduzieren
+
+Bei den Tests wird das Übersetzungsobjekt, `Application_Translate`, wiederverwendet. 
+Dadurch sinkt der Speicherverbrauch beträchtlich. Für den produktiven Betrieb hat das keine 
+Auswirkungen, da dort nach jedem Request, der Speicher wieder freigegeben wird. 
