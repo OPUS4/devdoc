@@ -114,7 +114,15 @@ abzumildern wurden einige Massnahmen getroffen.
 
 ## Tests in Blöcken
 
-Die Tests sind für Travis in Blöcke eingeteilt, die nach einander ausgeführt werden.
+Die Tests sind für Travis in Blöcke eingeteilt, die nach einander ausgeführt werden. Dadurch
+reduziert sich der maximale Speicherverbrauch und Tests laufen schneller durch. Die Blöcke
+sind als Testsuites in `tests/phpunit.xml` definiert.
+
+* library
+* modules (ohne Admin-Modul)
+* admin (nur Admin-Modul)
+* security
+* scripts
 
 ## Selektives Laden der Ressourcen
 
@@ -147,3 +155,7 @@ protected $configModifiable = true;
 Bei den Tests wird das Übersetzungsobjekt, `Application_Translate`, wiederverwendet. 
 Dadurch sinkt der Speicherverbrauch beträchtlich. Für den produktiven Betrieb hat das keine 
 Auswirkungen, da dort nach jedem Request, der Speicher wieder freigegeben wird. 
+
+Es gibt noch weitere Objekte durch die mit jedem Test der Speicherverbrauch steigt, unter 
+anderem vermutlich `Zend_Acl`. Momentan haben wir den Verbrauch aber auf etwa 300 MB gesenkt
+und die Laufzeit mit Travis beträgt etwa 27 Minuten. Das ist für den Augenblick gut genug.
