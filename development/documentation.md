@@ -175,7 +175,7 @@ Ganz Code Blöcke sind momentan nicht innerhalb einer Textbox machbar.
 Die Dokumentation kann unter Windows und Linux lokal mit einem Jekyll-Docker getestet werden. Weitere Informationen 
 finden Sie auf folgenden Seiten. 
 
-* `https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/`
+* [Running Jekyll in Windows using Docker](https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/)
 {: class="navlist" }
 
 Gehen Sie in das Root-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus, um die Seiten
@@ -194,4 +194,3 @@ Wenn der Docker einmal angelegt wurde, lässt kann er später einfach neu gestar
 Benötigen Sie den Docker nicht mehr kann der Container gelöscht werden, nachdem er gestoppt wurde.
 
     docker rm opus4doku
-    
