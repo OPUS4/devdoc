@@ -170,5 +170,28 @@ ist möglich.
 Ganz Code Blöcke sind momentan nicht innerhalb einer Textbox machbar.
 
 
+## Dokumentation testen
 
+Die Dokumentation kann unter Windows und Linux lokal mit einem Jekyll-Docker getestet werden. Weitere Informationen 
+finden Sie auf folgenden Seiten. 
 
+* `https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/`
+{: class="navlist" }
+
+Gehen Sie in das Root-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus, um die Seiten
+mit Jekyll rendern zu lassen. Die Seiten können über `https://localhost:4000` im Browser betrachtet werden.
+
+    docker run --name "opus4doku" -d -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
+
+Mit folgendem Kommando kann der Docker wieder gestoppt werden.
+
+    docker stop opus4doku
+    
+Wenn der Docker einmal angelegt wurde, lässt kann er später einfach neu gestartet werden. Da der Container bereits existiert, funktioniert `docker run` nicht mehr.    
+
+    docker start opus4doku
+    
+Benötigen Sie den Docker nicht mehr kann der Container gelöscht werden, nachdem er gestoppt wurde.
+
+    docker rm opus4doku
+    
