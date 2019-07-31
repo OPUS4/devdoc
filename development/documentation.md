@@ -172,26 +172,26 @@ Ganz Code Blöcke sind momentan nicht innerhalb einer Textbox machbar.
 
 ## Dokumentation testen
 
-Die Dokumentation kann auf Windows und Linux lokal mit einem jekyll-Docker getestet werden. 
-Für mehr Informationen: `https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/`
+Die Dokumentation kann unter Windows und Linux lokal mit einem Jekyll-Docker getestet werden. Weitere Informationen 
+finden Sie auf folgenden Seiten. 
 
-Gehen Sie in das Root-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus:
+* `https://www.jamessturtevant.com/posts/Running-Jekyll-in-Windows-using-Docker/`
+{: class="navlist" }
 
-    docker run --name "Opus4_Doku_Renderer" -d -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
+Gehen Sie in das Root-Verzeichnis der Dokumentation und führen Sie folgenden Docker-Befehl aus, um die Seiten
+mit Jekyll rendern zu lassen. Die Seiten können über `https://localhost:4000` im Browser betrachtet werden.
 
-Der Docker kann nach dem Testen wieder gestoppt werden:
+    docker run --name "opus4doku" -d -v "$PWD":/usr/src/app -p "4000:4000" starefossen/github-pages
 
-    docker stop Opus4_Doku_Renderer
+Mit folgendem Kommando kann der Docker wieder gestoppt werden.
+
+    docker stop opus4doku
     
-Mit folgendem Befehl lässt sich der Docker danach wieder starten:
-    
-    docker start Opus4_Doku_Renderer
-    
-`docker run` funktioniert dann nicht mehr, da der Container bereits existiert.    
-Benötigen Sie den Docker nicht mehr können Sie den Container wie folgt löschen, nachdem Sie diesen gestoppt haben:
+Wenn der Docker einmal angelegt wurde, lässt kann er später einfach neu gestartet werden. Da der Container bereits existiert, funktioniert `docker run` nicht mehr.    
 
-    docker rm Opus4_Doku_Renderer
+    docker start opus4doku
     
-Die gerenderten Seiten kann über `https://localhost:4000` im Browser betrachtet werden.
+Benötigen Sie den Docker nicht mehr kann der Container gelöscht werden, nachdem er gestoppt wurde.
 
+    docker rm opus4doku
     
